@@ -4,149 +4,370 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</title>
-    <!-- Tailwind CSS for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <!-- Google Fonts for Thai Language -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Sarabun', sans-serif; }
+        :root {
+            --primary: #2D2D9F;
+            --primary-dark: #141240;
+            --accent: #10B2A4;
+            --blue-bright: #183DE9;
+            --card-bg: #F3F4FC;
+            --text-dark: #141240;
+            --text-body: #333;
+            --footer-bg: #3638BF;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Kanit', sans-serif; background: #fff; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        
+        .hero {
+            position: relative; width: 100%; min-height: 520px;
+            background: url('https://i.ibb.co/qLbT0YcW/3a41cbee57a97f334e5b19c1e4027a3b2e8f46ae.png') no-repeat center center;
+            background-size: cover;
+            display: flex; flex-direction: column; align-items: center;
+            padding: 40px 16px 40px; overflow: hidden;
+        }
+        .logo {
+            position: absolute; top: 40px; left: 40px; z-index: 20;
+            display: flex; align-items: center;
+        }
+        .logo img { height: 40px; object-fit: contain; }
+        
+        .hero-content {
+            position: relative; z-index: 2; max-width: 600px; width: 100%;
+            display: flex; flex-direction: column; align-items: center; gap: 12px;
+            padding-top: 54px;
+        }
+        .hero h1 { font-size: 38px; font-weight: 600; color: var(--primary); line-height: 1.3; text-align: center; }
+        .hero h1 span { display: block; }
+        
+        .date-badge {
+            display: inline-flex; align-items: center; justify-content: center;
+            background: var(--accent); color: #fff; padding: 6px 20px;
+            border-radius: 64px; font-size: 15px; font-weight: 500; margin-top: 8px;
+        }
+        .announce-text { color: var(--text-body); font-size: 14px; font-weight: 400; text-align: center; margin-top: 4px; }
+        
+        .search-container {
+            width: 100%; background: #fff; border-radius: 12px; margin-top: 16px;
+            border: 2px solid #8489DC;
+            display: flex; align-items: center; padding: 6px;
+            box-shadow: 0 4px 16px rgba(45,45,159,0.06);
+            transition: border-color 0.2s ease;
+        }
+        .search-container:focus-within { border-color: var(--primary); }
+        
+        .search-icon { color: #A0A0B0; font-size: 20px; margin-left: 12px; margin-right: 8px; flex-shrink: 0; }
+        .search-container input {
+            flex: 1; border: none; outline: none; font-family: 'Kanit', sans-serif;
+            font-size: 16px; font-weight: 400; color: var(--text-dark); padding: 8px 0;
+            background: transparent;
+        }
+        .search-container input::placeholder { color: #A0A0B0; }
+        
+        .search-btn {
+            background: var(--primary); color: #fff; border: none; border-radius: 8px;
+            height: 44px; min-width: 96px; padding: 0 24px; font-family: 'Kanit', sans-serif;
+            font-size: 16px; font-weight: 500; cursor: pointer; flex-shrink: 0;
+            transition: opacity 0.2s;
+        }
+        .search-btn:hover { opacity: 0.9; }
+        
+        .status-area { width: 100%; margin-top: 16px; }
+        
+        .status-initial {
+            background: #fff; border: 1px solid #E8EBF4; border-radius: 12px;
+            display: flex; align-items: center; gap: 20px; padding: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+        }
+        .status-initial .promo-img {
+            width: 80px; height: 80px; background: #F3F4FC; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        }
+        .status-initial .promo-img img { width: 44px; height: 44px; object-fit: contain; }
+        .status-initial .promo-text { font-size: 16px; font-weight: 500; color: var(--text-dark); line-height: 1.5; text-align: left; }
+        
+        .status-loading {
+            background: #fff; border: 1px solid #E8EBF4; border-radius: 12px;
+            padding: 32px; text-align: center;
+        }
+        .status-loading i { font-size: 28px; color: var(--primary); margin-bottom: 12px; }
+        .status-loading p { color: #666; font-size: 16px; }
+        
+        .status-success {
+            background: #fff; border: 2px solid #10B2A4; border-radius: 12px;
+            display: flex; align-items: center; gap: 20px; padding: 16px;
+            box-shadow: 0 6px 16px rgba(16,178,164,0.08);
+        }
+        .status-success .s-icon { 
+            width: 80px; height: 80px; background: #E8F9F7; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0; 
+        }
+        .status-success .s-icon img { width: 44px; height: 44px; object-fit: contain; }
+        .status-success .s-info { flex: 1; text-align: left; }
+        .status-success .s-title { color: #10B2A4; font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+        .status-success .s-detail { color: #555; font-size: 14px; line-height: 1.6; }
+        .status-success .s-detail i { color: #A0A0A0; margin-right: 6px; }
+        
+        .status-warning {
+            background: #fff; border: 2px solid #FCD49E; border-radius: 12px;
+            display: flex; align-items: center; gap: 20px; padding: 16px;
+            box-shadow: 0 6px 16px rgba(252,212,158,0.15);
+        }
+        .status-warning .s-icon { 
+            width: 80px; height: 80px; background: #FFF9ED; border-radius: 12px; 
+            display: flex; align-items: center; justify-content: center; flex-shrink: 0; 
+        }
+        .status-warning .s-icon img { width: 80px; height: 80px; object-fit: contain; border-radius: 12px; }
+        .status-warning .s-info { flex: 1; text-align: left; }
+        .status-warning .s-title { color: #E04B00; font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+        .status-warning .s-detail { color: #555; font-size: 14px; line-height: 1.6; }
+        .status-warning .s-detail i { color: #A0A0A0; margin-right: 6px; }
+        .status-warning .s-note { color: #888; font-size: 13px; margin-top: 8px; }
+
+        .qualification {
+            width: 100%; background: #fff; display: flex; justify-content: center;
+            padding: 56px 16px 0;
+        }
+        .qualification-inner { max-width: 880px; width: 100%; }
+        .qualification h2 {
+            font-size: 24px; font-weight: 500; color: var(--text-body); text-align: center;
+            margin-bottom: 32px; line-height: 32px;
+        }
+        .cards-row { display: flex; gap: 16px; min-height: 280px; }
+        .cards-row > div { flex: 1; }
+        .q-card { border-radius: 24px; padding: 20px 20px 24px; display: flex; flex-direction: column; gap: 20px; height: 100%; }
+        .q-card .q-icon {
+            width: 56px; height: 56px; border-radius: 40px; display: flex;
+            align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0;
+        }
+        .q-card h3 { font-size: 20px; font-weight: 500; line-height: 28px; }
+        .q-card p { font-size: 15px; font-weight: 400; line-height: 22px; }
+        .q-card ul { font-size: 15px; font-weight: 400; line-height: 22px; padding-left: 24px; margin-top: 4px; }
+        .q-basic { background: var(--card-bg); color: var(--text-body); }
+        .q-basic .q-icon { background: var(--blue-bright); color: #fff; }
+        .q-basic h3 { color: var(--text-dark); }
+        .q-multi { background: var(--blue-bright); color: #fff; }
+        .q-multi .q-icon { background: #FFFFFF; color: var(--blue-bright); }
+        .q-special { background: var(--primary-dark); color: #fff; }
+        .q-special .q-icon { background: var(--accent); color: #fff; }
+        
+        .terms-section { text-align: center; margin-top: 24px; padding-bottom: 40px; }
+        .terms-section .terms-note { color: var(--text-body); font-size: 16px; font-weight: 400; margin-bottom: 8px; }
+        .terms-section a {
+            color: var(--primary); font-size: 16px; font-weight: 500;
+            text-decoration: underline; cursor: pointer;
+        }
+        .terms-section a:hover { opacity: 0.8; }
+        
+        footer {
+            background: var(--footer-bg); height: 64px; display: flex;
+            align-items: center; justify-content: center; gap: 8px;
+        }
+        footer .f-logo {
+            width: 28px; height: 28px; border-radius: 6px;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        footer .f-logo img { width: 100%; height: 100%; object-fit: contain; }
+        footer span { color: #fff; font-size: 16px; font-weight: 500; }
+
+        @media (max-width: 768px) {
+            .logo { top: 16px; left: 16px; }
+            .logo img { height: 28px; }
+            .hero { min-height: auto; padding: 24px 16px 32px; }
+            .hero-content { padding-top: 48px; gap: 12px; }
+            .hero h1 { font-size: 28px; }
+            .date-badge { font-size: 14px; }
+            .search-container { margin-top: 16px; border-radius: 10px; }
+            .search-container input { font-size: 15px; }
+            .search-btn { min-width: 80px; padding: 0 16px; font-size: 15px; height: 40px; }
+            .status-initial, .status-success, .status-warning { 
+                flex-direction: column; align-items: center; text-align: center; gap: 16px; padding: 20px 16px;
+            }
+            .status-initial .promo-text, .status-success .s-info, .status-warning .s-info { text-align: center; }
+            .qualification { padding: 36px 16px 0; }
+            .qualification h2 { font-size: 20px; margin-bottom: 20px; }
+            .cards-row { flex-direction: column; min-height: auto; }
+            .q-card { padding: 20px; gap: 16px; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .hero h1 { font-size: 34px; }
+            .logo { left: 24px; top: 28px; }
+        }
     </style>
 </head>
-<body class="bg-[#f0f2f5] min-h-screen flex flex-col font-sans">
-    
-    <!-- Top Nav -->
-    <div class="bg-[#2c2eb8] text-white py-3 flex justify-center items-center gap-3 shadow-sm px-4">
-        <!-- Resized Logo -->
-        <img src="https://i.ibb.co/VpmBMChZ/moneythunder-logo.png" alt="MoneyThunder Logo" class="h-5 md:h-6 w-auto object-contain">
-        <span class="font-semibold text-base md:text-lg truncate">ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</span>
+<body>
+
+<div class="hero">
+    <div class="logo">
+        <img src="https://i.ibb.co/Hf71wMKb/Logo.avif" alt="Money Thunder Logo">
     </div>
-
-    <!-- Blue Header Background Section -->
-    <div class="bg-[#3b3dbf] w-full pt-8 pb-24 md:pb-32 flex flex-col items-center px-4 text-center relative">
-        <div class="bg-white rounded-2xl md:rounded-3xl w-20 h-20 md:w-24 md:h-24 flex items-center justify-center mb-4 md:mb-6 shadow-md overflow-hidden">
-            <!-- Resized Logo with padding (p-3) so it doesn't touch the edges -->
-            <img src="https://i.ibb.co/VpmBMChZ/moneythunder-logo.png" alt="MoneyThunder Logo" class="w-full h-full object-contain p-2 md:p-3">
-        </div>
-        <h1 class="text-white text-2xl md:text-3xl font-bold mb-2">ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</h1>
-        <p class="text-blue-200 text-xs md:text-base px-2">ค้นหาเลขที่สัญญาเพื่อตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</p>
-    </div>
-
-    <!-- Search Card (Overlapping) -->
-    <div class="flex-1 flex flex-col items-center px-4 -mt-12 md:-mt-20 z-10 w-full mb-10">
-        <div class="bg-white rounded-xl md:rounded-2xl shadow-xl w-full max-w-4xl p-5 md:p-10 border border-gray-100">
-            <div class="flex items-center gap-2 md:gap-3 text-[#2c2eb8] font-bold mb-4 md:mb-6 text-lg md:text-xl">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <span>ระบุเลขที่สัญญา</span>
-            </div>
-            
-            <div class="flex flex-col sm:flex-row gap-3 md:gap-4">
-                <input type="text" id="contactInput" class="flex-1 border border-gray-300 rounded-lg md:rounded-xl px-4 py-3 md:px-5 md:py-4 outline-none focus:border-[#3b3dbf] focus:ring-2 focus:ring-[#3b3dbf]/20 transition text-base md:text-lg" placeholder="กรอกเลขที่สัญญา...">
-                <button onclick="checkEligibility()" class="bg-[#8385da] hover:bg-[#6b6ed1] text-white px-6 py-3 md:px-8 md:py-4 rounded-lg md:rounded-xl transition shadow-md flex items-center justify-center min-w-[60px] md:min-w-[80px] w-full sm:w-auto">
-                    <span class="sm:hidden font-semibold mr-2">ตรวจสอบ</span>
-                    <i class="fa-solid fa-magnifying-glass text-lg md:text-xl"></i>
-                </button>
-            </div>
-
-            <!-- Result Area (Dynamically Updated via JavaScript) -->
-            <div id="resultArea" class="hidden mt-6 md:mt-8"></div>
+    <div class="hero-content">
+        <h1>
+            <span>ตรวจสอบสิทธิ์</span>
+            <span> ลุ้น ลด ปลดหนี้ เดือนเมษายน 2569</span>
+        </h1>
+        <div class="date-badge">ระยะเวลากิจกรรม 1 เมษายน 2569 - 30 มิถุนายน 2569</div>
+        <p class="announce-text">ประกาศผล 23 กรกฎาคม 2569 ทาง Facebook "MoneyThunder (มันนี่ทันเดอร์)"</p>
+        
+        <div class="search-container">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="contactInput" placeholder="ระบุเลขที่สัญญา" inputmode="numeric" onkeydown="if(event.key==='Enter')checkEligibility()">
+            <button class="search-btn" onclick="checkEligibility()">ตรวจสอบ</button>
         </div>
         
-        <div class="mt-6 md:mt-8 text-center">
-            <!-- 🚀 UPDATED LINK HERE 🚀 -->
-            <a href="https://www.money-thunder.com/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-gray-800 underline text-xs md:text-sm transition-colors">ข้อกำหนดและเงื่อนไข</a>
+        <div class="status-area" id="statusArea">
+            <div class="status-initial" id="promoCard">
+                <div class="promo-img">
+                    <img src="https://i.ibb.co/N2sRynqC/Screenshot-2026-03-07-003507.png" alt="Present">
+                </div>
+                <div class="promo-text">
+                    จ่ายครบตามกำหนดอย่างต่อเนื่อง<br>
+                    รับสิทธิ์ลุ้นรางวัลปลดหนี้เพิ่มขึ้นในเดือนถัดไป
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- Footer -->
-    <footer class="bg-[#2a2c7b] text-white py-4 md:py-5 text-center text-xs md:text-sm flex justify-center items-center gap-2 mt-auto px-4">
-        <!-- Resized Logo -->
-        <img src="https://i.ibb.co/VpmBMChZ/moneythunder-logo.png" alt="MoneyThunder Logo" class="h-4 md:h-5 w-auto object-contain opacity-90">
-        <span>ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</span>
-    </footer>
-
-    <script>
-        const apiUrl = "https://script.google.com/macros/s/AKfycbw1B17Nbj327udXdK9pOfsdTGICy0wjmmh9w7Y4lzbmgP_uk6olopF4LNQEABRp_ny-/exec";
-
-        function checkEligibility() {
-            const contactId = document.getElementById('contactInput').value.trim();
-            const resultArea = document.getElementById('resultArea');
-            
-            if(!contactId) {
-                alert("กรุณากรอกเลขที่สัญญา");
-                return;
-            }
-
-            // Show loading state
-            resultArea.classList.remove('hidden');
-            resultArea.innerHTML = `
-                <div class="py-8 md:py-10 text-center text-gray-500">
-                    <i class="fa-solid fa-spinner fa-spin text-3xl md:text-4xl mb-3 md:mb-4 text-[#3b3dbf]"></i>
-                    <p class="font-medium text-base md:text-lg">กำลังตรวจสอบข้อมูล...</p>
+<div class="qualification">
+    <div class="qualification-inner">
+        <h2>คุณสมบัติและการได้รับสิทธิ์ร่วมกิจกรรม</h2>
+        <div class="cards-row">
+            <div>
+                <div class="q-card q-basic">
+                    <div class="q-icon"><i class="fa-solid fa-check"></i></div>
+                    <div>
+                        <h3>1. สิทธิพื้นฐาน</h3>
+                        <p style="margin-top:12px;">รับ 1 สิทธิ์ ในเดือนที่ชำระค่างวดครบ<br>และไม่มีการค้างชำระภายในเดือนนั้นๆ</p>
+                    </div>
                 </div>
-            `;
+            </div>
+            <div>
+                <div class="q-card q-multi">
+                    <div class="q-icon"><i class="fa-solid fa-arrow-trend-up"></i></div>
+                    <div>
+                        <h3>2. สิทธิทวีคูณ</h3>
+                        <p style="margin-top:12px;">จ่ายดีต่อเนื่องรับสิทธิ์เพิ่ม</p>
+                        <ul>
+                            <li>เม.ย. 69 - รับ 1 สิทธิ์</li>
+                            <li>พ.ค. 69 - (จ่ายต่อเนื่อง) รับ 2 สิทธิ์</li>
+                            <li>มิ.ย. 69 - (จ่ายต่อเนื่อง) รับ 3 สิทธิ์</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="q-card q-special">
+                    <div class="q-icon"><i class="fa-solid fa-star"></i></div>
+                    <div>
+                        <h3>3. สิทธิพิเศษ</h3>
+                        <p style="margin-top:12px;">รับเพิ่มอีก 1 สิทธิ์ ในเดือนนั้นๆ เมื่อชำระค่างวดล่วงหน้า 1-3 วัน ก่อนถึงวันครบกำหนดชำระ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="terms-section">
+            <p class="terms-note">เงื่อนไขเป็นไปตามที่บริษัทฯ กำหนด</p>
+            <a href="https://www.money-thunder.com/post/debt-free-campaign-apr-2026/" target="_blank" rel="noopener noreferrer">อ่านรายละเอียดแคมเปญและเงื่อนไข</a>
+        </div>
+    </div>
+</div>
 
-            const fetchUrl = `${apiUrl}?contactId=${encodeURIComponent(contactId)}`;
+<footer>
+    <div class="f-logo">
+        <img src="https://i.ibb.co/k2qPTBRV/money-thubder-logo.png" alt="MT">
+    </div>
+    <span>ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</span>
+</footer>
 
-            fetch(fetchUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        const eligibility = parseInt(data.eligibility_number);
-                        
-                        if (eligibility > 0) {
-                            // Success State (> 0 Eligibility)
-                            resultArea.innerHTML = `
-                                <div class="rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-green-200 bg-green-50/50">
-                                    <div class="bg-[#22c55e] text-white w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-2xl md:text-3xl shadow-lg shadow-green-200">
-                                        <i class="fa-solid fa-check"></i>
-                                    </div>
-                                    <div class="text-[#16a34a] font-bold text-lg md:text-xl mb-3 md:mb-4">ยินดีด้วย! คุณได้รับสิทธิ์จำนวน ${eligibility} สิทธิ์</div>
-                                    <div class="text-gray-500 text-xs md:text-sm flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2">
-                                        <div><i class="fa-solid fa-trophy text-gray-400 mr-1"></i> เลขที่สัญญา:</div>
-                                        <span class="text-gray-600 font-medium break-all">${data.contact_id}</span>
-                                    </div>
+<script>
+const apiUrl = "https://script.google.com/macros/s/AKfycbw1B17Nbj327udXdK9pOfsdTGICy0wjmmh9w7Y4lzbmgP_uk6olopF4LNQEABRp_ny-/exec";
+
+const docCheckIMG = `<img src="https://i.ibb.co/DDLZ3zwN/Screenshot-2026-03-07-003538.png" alt="Eligibility">`;
+const warnIMG = `<img src="https://i.ibb.co/Q3CxXHB5/Screenshot-2026-03-07-142838.png" alt="Warning">`;
+
+function maskContractId(id) {
+    const str = String(id);
+    const len = str.length;
+    if (len <= 2) return 'x'.repeat(len);
+    if (len <= 4) return str[0] + 'x'.repeat(len - 2) + str[len - 1];
+    const show = Math.max(1, Math.floor(len / 4));
+    return str.slice(0, show) + 'x'.repeat(len - show * 2) + str.slice(len - show);
+}
+
+function checkEligibility() {
+    const cid = document.getElementById('contactInput').value.trim();
+    const sa = document.getElementById('statusArea');
+
+    if (!cid) { alert("กรุณากรอกเลขที่สัญญา"); return; }
+
+    document.getElementById('contactInput').value = maskContractId(cid);
+
+    sa.innerHTML = `<div class="status-loading"><i class="fa-solid fa-spinner fa-spin"></i><p>กำลังตรวจสอบข้อมูล...</p></div>`;
+
+    fetch(`${apiUrl}?contactId=${encodeURIComponent(cid)}`)
+        .then(r => r.json())
+        .then(data => {
+            if (data.status === "success") {
+                const elig = parseInt(data.eligibility_number);
+                const id = data.contact_id;
+                const maskedId = maskContractId(id);
+                const upd = data.updated_at || '-';
+
+                if (elig > 0) {
+                    sa.innerHTML = `
+                        <div class="status-success">
+                            <div class="s-icon">${docCheckIMG}</div>
+                            <div class="s-info">
+                                <div class="s-title">ยินดีด้วย! คุณได้รับ ${elig} สิทธิ์</div>
+                                <div class="s-detail">
+                                    <div><i class="fa-regular fa-file-lines"></i> เลขที่สัญญา ${maskedId}</div>
+                                    <div><i class="fa-regular fa-calendar"></i> ข้อมูลอัปเดตล่าสุดวันที่ ${upd}</div>
                                 </div>
-                            `;
-                        } else {
-                            // Zero State (0 Eligibility)
-                            resultArea.innerHTML = `
-                                <div class="rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-orange-200 bg-orange-50/50">
-                                    <div class="bg-[#f26d21] text-white w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-2xl md:text-3xl shadow-lg shadow-orange-200">
-                                        <i class="fa-solid fa-exclamation"></i>
-                                    </div>
-                                    <div class="text-[#f26d21] font-bold text-base md:text-xl mb-3 md:mb-4">กรุณาจ่ายยอดค้างชำระที่เหลือ เพื่อเข้าร่วมกิจกรรมลุ้นลดปลดหนี้</div>
-                                    <div class="text-gray-500 text-xs md:text-sm flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2">
-                                        <div><i class="fa-solid fa-trophy text-gray-400 mr-1"></i> เลขที่สัญญา:</div>
-                                        <span class="text-gray-600 font-medium break-all">${data.contact_id}</span>
-                                    </div>
-                                </div>
-                            `;
-                        }
-                    } else {
-                        // Not Found State (Error / Contact ID missing)
-                        resultArea.innerHTML = `
-                            <div class="rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-red-200 bg-red-50/50">
-                                <div class="bg-[#ef4444] text-white w-12 h-12 md:w-16 md:h-16 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6 text-2xl md:text-3xl shadow-lg shadow-red-200">
-                                    <i class="fa-solid fa-xmark"></i>
-                                </div>
-                                <div class="text-[#ef4444] font-bold text-lg md:text-xl">ไม่พบเลขที่สัญญา กรุณาตรวจสอบอีกครั้ง</div>
                             </div>
-                        `;
-                    }
-                })
-                .catch(error => {
-                    // Network or API Error
-                    resultArea.innerHTML = `
-                        <div class="rounded-xl md:rounded-2xl p-6 md:p-8 text-center border border-red-200 bg-red-50/50">
-                            <div class="text-[#ef4444] font-bold text-lg md:text-xl mb-2">เกิดข้อผิดพลาดในการเชื่อมต่อเครือข่าย</div>
-                            <p class="text-gray-500 text-sm md:text-base">กรุณาลองใหม่อีกครั้ง หรือตรวจสอบ API ของคุณ</p>
+                        </div>`;
+                } else {
+                    sa.innerHTML = `
+                        <div class="status-warning">
+                            <div class="s-icon">${warnIMG}</div>
+                            <div class="s-info">
+                                <div class="s-title">บัญชีของคุณยังไม่เป็นไปตามเงื่อนไข กรุณาตรวจสอบรายละเอียดบัญชีเพื่อเข้าร่วมกิจกรรม</div>
+                                <div class="s-detail">
+                                    <div><i class="fa-regular fa-file-lines"></i> เลขที่สัญญา ${maskedId}</div>
+                                    <div><i class="fa-regular fa-calendar"></i> ข้อมูลอัปเดตล่าสุดวันที่ ${upd}</div>
+                                </div>
+                                <div class="s-note">*ขออภัยหากชำระแล้ว ระบบจะอัปเดตข้อมูลในวันถัดไปหลังจากวันที่ชำระเงิน</div>
+                            </div>
+                        </div>`;
+                }
+            } else {
+                const maskedCid = maskContractId(cid);
+                sa.innerHTML = `
+                    <div class="status-warning">
+                        <div class="s-icon">${warnIMG}</div>
+                        <div class="s-info">
+                            <div class="s-title">จ่ายยอดค้างชำระ เพื่อเข้าร่วมกิจกรรม</div>
+                            <div class="s-detail">
+                                <div><i class="fa-regular fa-file-lines"></i> เลขที่สัญญา ${maskedCid}</div>
+                                <div><i class="fa-regular fa-calendar"></i> ข้อมูลอัปเดตล่าสุดวันที่ -</div>
+                            </div>
+                            <div class="s-note">*ขออภัยหากชำระแล้วจะแสดงในวันถัดไป</div>
                         </div>
-                    `;
-                    console.error("Error fetching data:", error);
-                });
-        }
-    </script>
+                    </div>`;
+            }
+        })
+        .catch(() => {
+            sa.innerHTML = `
+                <div class="status-warning">
+                    <div class="s-icon">${warnIMG}</div>
+                    <div class="s-info">
+                        <div class="s-title">เกิดข้อผิดพลาดในการเชื่อมต่อ</div>
+                        <div class="s-detail"><div>กรุณาลองใหม่อีกครั้ง</div></div>
+                    </div>
+                </div>`;
+        });
+}
+</script>
 </body>
 </html>
