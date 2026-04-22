@@ -22,7 +22,8 @@
         
         .hero {
             position: relative; width: 100%; min-height: 520px;
-            background: url('img/cloud.png') no-repeat center center;
+            /* Updated Background Image */
+            background: url('https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/new%20background.png') no-repeat center center;
             background-size: cover;
             display: flex; flex-direction: column; align-items: center;
             padding: 40px 16px 40px; overflow: hidden;
@@ -48,12 +49,57 @@
         }
         .announce-text { color: var(--text-body); font-size: 14px; font-weight: 400; text-align: center; margin-top: 4px; }
         
+        /* --- Search Bar Styles --- */
         .search-container {
-            display: none;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            border-radius: 12px;
+            padding: 8px 8px 8px 20px;
+            width: 100%;
+            max-width: 480px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            margin-top: 24px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
         }
-        .search-icon { display: none; }
-        .search-container input { display: none; }
-        .search-btn { display: none; }
+        .search-container:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 8px 24px rgba(45, 45, 159, 0.15);
+        }
+        .search-icon { 
+            color: #888;
+            font-size: 18px;
+        }
+        .search-container input { 
+            flex: 1;
+            border: none;
+            outline: none;
+            padding: 0 16px;
+            font-size: 16px;
+            font-family: 'Kanit', sans-serif;
+            color: var(--text-dark);
+            background: transparent;
+        }
+        .search-container input::placeholder {
+            color: #A0A0A0;
+        }
+        .search-btn { 
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0 24px;
+            height: 44px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Kanit', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        .search-btn:hover {
+            background: var(--blue-bright);
+        }
         
         .status-area { width: 100%; margin-top: 24px; max-width: 560px; }
         
@@ -106,7 +152,6 @@
         .status-warning .s-detail { color: #555; font-size: 15px; line-height: 1.8; }
         .status-warning .s-detail i { color: #A0A0A0; margin-right: 6px; }
         .status-warning .s-note { color: #888; font-size: 13px; margin-top: 8px; }
-
         .qualification {
             width: 100%; background: #fff; display: flex; justify-content: center;
             padding: 56px 16px 0;
@@ -152,7 +197,6 @@
         }
         footer .f-logo img { width: 100%; height: 100%; object-fit: contain; }
         footer span { color: #fff; font-size: 16px; font-weight: 500; }
-
         @media (max-width: 768px) {
             .logo { top: 16px; left: 16px; }
             .logo img { height: 28px; }
@@ -160,8 +204,8 @@
             .hero-content { padding-top: 48px; gap: 12px; }
             .hero h1 { font-size: 28px; }
             .date-badge { font-size: 14px; }
-            .search-container { margin-top: 16px; border-radius: 10px; }
-            .search-container input { font-size: 15px; }
+            .search-container { margin-top: 16px; border-radius: 10px; padding: 6px 6px 6px 16px; }
+            .search-container input { font-size: 15px; padding: 0 12px; }
             .search-btn { min-width: 80px; padding: 0 16px; font-size: 15px; height: 40px; }
             .status-initial { gap: 16px; padding: 20px 16px; }
             .status-success { gap: 16px; padding: 20px 16px; }
@@ -184,10 +228,10 @@
     </style>
 </head>
 <body>
-
 <div class="hero">
     <div class="logo">
-        <img src="img/Logo.avif" alt="Money Thunder Logo">
+        <!-- Updated Top Left Logo -->
+        <img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/new%20thunder%20logo.png" alt="Money Thunder Logo">
     </div>
     <div class="hero-content">
         <h1>
@@ -206,7 +250,8 @@
         <div class="status-area" id="statusArea">
             <div class="status-initial" id="promoCard">
                 <div class="promo-img">
-                    <img src="img/default.png" alt="Present">
+                    <!-- Updated Default Stage Logo -->
+                    <img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/present.png" alt="Present">
                 </div>
                 <div class="promo-text">
                     จ่ายครบตามกำหนดอย่างต่อเนื่อง<br>
@@ -216,7 +261,6 @@
         </div>
     </div>
 </div>
-
 <div class="qualification">
     <div class="qualification-inner">
         <h2>คุณสมบัติและการได้รับสิทธิ์ร่วมกิจกรรม</h2>
@@ -260,19 +304,19 @@
         </div>
     </div>
 </div>
-
 <footer>
     <div class="f-logo">
-        <img src="img/money thubder logo.png" alt="MT">
+        <!-- Updated Bottom Logo -->
+        <img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/money%20thubder%20logo.png" alt="MT">
     </div>
     <span>ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</span>
 </footer>
-
 <script>
 const apiUrl = "https://script.google.com/macros/s/AKfycbw1B17Nbj327udXdK9pOfsdTGICy0wjmmh9w7Y4lzbmgP_uk6olopF4LNQEABRp_ny-/exec";
 
-const docCheckIMG = `<img src="img/have eli.png" alt="Eligibility">`;
-const warnIMG = `<img src="img/0.png" alt="Warning">`;
+// Updated Eligibility and Warning Images
+const docCheckIMG = `<img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/have.png" alt="Eligibility">`;
+const warnIMG = `<img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/no%20eli.png" alt="Warning">`;
 
 function maskContractId(id) {
     const str = String(id);
@@ -286,13 +330,10 @@ function maskContractId(id) {
 function checkEligibility() {
     const cid = document.getElementById('contactInput').value.trim();
     const sa = document.getElementById('statusArea');
-
     if (!cid) { alert("กรุณากรอกเลขที่สัญญา"); return; }
-
     document.getElementById('contactInput').value = maskContractId(cid);
-
     sa.innerHTML = `<div class="status-loading"><i class="fa-solid fa-spinner fa-spin"></i><p>กำลังตรวจสอบข้อมูล...</p></div>`;
-
+    
     fetch(`${apiUrl}?contactId=${encodeURIComponent(cid)}`)
         .then(r => r.json())
         .then(data => {
@@ -301,7 +342,6 @@ function checkEligibility() {
                 const id = data.contact_id;
                 const maskedId = maskContractId(id);
                 const upd = data.updated_at || '-';
-
                 if (elig > 0) {
                     sa.innerHTML = `
                         <div class="status-success">
