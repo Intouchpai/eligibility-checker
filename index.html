@@ -22,8 +22,8 @@
         
         .hero {
             position: relative; width: 100%; min-height: 520px;
-            /* Updated Background Image */
-            background: url('https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/new%20background.png') no-repeat center center;
+            /* Updated Background Image to cloud.png */
+            background: url('https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/cloud.png') no-repeat center center;
             background-size: cover;
             display: flex; flex-direction: column; align-items: center;
             padding: 40px 16px 40px; overflow: hidden;
@@ -152,6 +152,7 @@
         .status-warning .s-detail { color: #555; font-size: 15px; line-height: 1.8; }
         .status-warning .s-detail i { color: #A0A0A0; margin-right: 6px; }
         .status-warning .s-note { color: #888; font-size: 13px; margin-top: 8px; }
+        
         .qualification {
             width: 100%; background: #fff; display: flex; justify-content: center;
             padding: 56px 16px 0;
@@ -197,6 +198,7 @@
         }
         footer .f-logo img { width: 100%; height: 100%; object-fit: contain; }
         footer span { color: #fff; font-size: 16px; font-weight: 500; }
+        
         @media (max-width: 768px) {
             .logo { top: 16px; left: 16px; }
             .logo img { height: 28px; }
@@ -230,7 +232,6 @@
 <body>
 <div class="hero">
     <div class="logo">
-        <!-- Updated Top Left Logo -->
         <img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/new%20thunder%20logo.png" alt="Money Thunder Logo">
     </div>
     <div class="hero-content">
@@ -250,7 +251,6 @@
         <div class="status-area" id="statusArea">
             <div class="status-initial" id="promoCard">
                 <div class="promo-img">
-                    <!-- Updated Default Stage Logo -->
                     <img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/present.png" alt="Present">
                 </div>
                 <div class="promo-text">
@@ -306,7 +306,6 @@
 </div>
 <footer>
     <div class="f-logo">
-        <!-- Updated Bottom Logo -->
         <img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/money%20thubder%20logo.png" alt="MT">
     </div>
     <span>ตรวจสอบสิทธิ์ลุ้นลดปลดหนี้</span>
@@ -314,7 +313,6 @@
 <script>
 const apiUrl = "https://script.google.com/macros/s/AKfycbw1B17Nbj327udXdK9pOfsdTGICy0wjmmh9w7Y4lzbmgP_uk6olopF4LNQEABRp_ny-/exec";
 
-// Updated Eligibility and Warning Images
 const docCheckIMG = `<img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/have.png" alt="Eligibility">`;
 const warnIMG = `<img src="https://raw.githubusercontent.com/Intouchpai/eligibility-checker/main/img/no%20eli.png" alt="Warning">`;
 
